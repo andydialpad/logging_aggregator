@@ -18,13 +18,6 @@ I have decided to implement a Push style system with the folowing design.
 
 ## Design
 
-Each machine will have a push daemon that monitors the log files and periodically sends messages to the activeMQ message queue. For simplicity sake, this daemon will be called Henrick, as it is primarily responsible for passing data to other systems.
+Each machine will have a push daemon that monitors the log files and periodically sends messages to the nosql datastore. To simplify things, this daemon will be called Henrik, as it is primarily responsible for passing data to other systems.
 
-There will be a message queue, as mentioned above, it should guantee log message delivery to the consumer service.
-
-There will be a message consumer service who's purpose is to take the messages off the queue, and insert them into a datastore. Since this system is only required to collect messages passed to it from Henrick, and shoot them into the datastore, we will call this service Daniel.
-
-
-In order to expose this data to the end user and various other integrations, we will need to pull the data from the datastore. This will be exposed via a REST api, which checks authorization of incoming requests before allowing access.  Because this service basically determines who can look at the data in the datastore, and serves up the data, we will call this service Roberto
-
-
+There will be a REST api service for retrieving the data that was passed to it by Henrik. This service will be called Daniel, and will be responsible for "shooting" the data to the end user.
