@@ -1,6 +1,6 @@
 import datetime
 import json
-import sys
+import time
 import os
 from models.log import Log
 from models.datastore import Datastore
@@ -12,11 +12,11 @@ from models.datastore import Datastore
 
 
 class App:
-    #log_dir = '/var/log/'
+    #LOG_DIR = '/var/log/'
     LOG_DIR = 'test/var_log'
     LAST_MODIFIED = 'last-modified'
 
-    LOG_ACCESS_DELIMITER = u"\u200E" #use LTR character as non-visible indicator that we're caught up
+    LOG_ACCESS_DELIMITER = u"\u200E"  #use LTR character as non-visible indicator that we're caught up
 
     def __init__(self):
         pass
@@ -37,16 +37,17 @@ class App:
         return metadata or {}
 
     def process_file(self, file_metadata, filename):
-
+        print(" Processing %s" % filename)
         new_log_lines = []
         file_path = self.LOG_DIR + "/" + filename
         for line in reversed(list(open(file_path))):
             if not self.LOG_ACCESS_DELIMITER in line:
-                new_log_lines.append(Log(filename=filename, data=line))
+                new_log_lines.append(
+                    Log(filename=filename, data=line, host=os.uname()[1]))
             else:
                 break
         if len(new_log_lines) > 0:
-            Datastore().save_batch(new_log_lines)
+            Datastore().save_batch(reversed(new_log_lines)) #reverse this list so oldest entries get earliest timestamps
             with open(file_path, "a") as append_file:
                 append_file.write(self.LOG_ACCESS_DELIMITER)
 
@@ -54,13 +55,16 @@ class App:
         current_time = int(datetime.datetime.now().timestamp())
         file_metadata[self.LAST_MODIFIED] = current_time
 
-
-
-
     def main(self):
 
-        metadata_filename = 'data/metadata'
+        while True:
+            print("*** Checking for log updates")
+            self.check_and_process_logs()
+            print("*** *** Sleeping")
+            time.sleep(30)
 
+    def check_and_process_logs(self):
+        metadata_filename = 'data/metadata'
         files = [f for f in os.listdir(self.LOG_DIR)]
         metadata = self.get_metadata(metadata_filename)
         for f in files:
@@ -72,7 +76,6 @@ class App:
                                   f) > file_metadata[self.LAST_MODIFIED]:
                 self.process_file(filename=f, file_metadata=file_metadata)
             metadata[f] = file_metadata
-
         self.write_metadata(metadata, metadata_filename)
 
 

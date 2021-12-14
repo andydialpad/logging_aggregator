@@ -1,0 +1,4 @@
+daniel-rest/flask
+daniel-rest/venv
+henrik-producer-daemon/env
+*.pyc

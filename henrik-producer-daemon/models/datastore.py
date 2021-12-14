@@ -1,3 +1,4 @@
+import datetime
 from decimal import Decimal
 import boto3
 
@@ -26,8 +27,9 @@ class Datastore:
 
     def create_datastore_entity(self, log):
         return {
+            'host': log.host,
             'filename': log.filename,
-            'last_modified': Decimal(log.last_modified),
+            'last_modified': Decimal(datetime.datetime.now().timestamp()),
             'data': log.data,
             'id': str(log.Key)
         }
