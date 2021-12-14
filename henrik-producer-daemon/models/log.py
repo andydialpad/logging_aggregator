@@ -17,6 +17,6 @@ class Log:
                  last_modified=datetime.datetime.now().timestamp()):
         self.host = host
         self.filename = filename
-        self.data = data
+        self.data = data.strip()
         self.last_modified = last_modified
         self.Key = uuid.uuid4()

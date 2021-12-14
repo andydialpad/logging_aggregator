@@ -30,6 +30,6 @@ class Datastore:
             'host': log.host,
             'filename': log.filename,
             'last_modified': Decimal(datetime.datetime.now().timestamp()),
-            'data': log.data,
+            'logline': log.data,
             'id': str(log.Key)
         }

@@ -5,7 +5,7 @@ from boto3.dynamodb.conditions import Key
 from flask import request
 
 
-class Log(Resource):
+class Host(Resource):
     table = None
 
     def __init__(self):
@@ -13,13 +13,11 @@ class Log(Resource):
         self.table = dynamodb.Table('logging_aggregator')
 
     def get(self, host=None):
-        # print(filename)
-        filter = request.args.get('filter')
-        element_count = request.args.get('count')
+        print(host)
 
         responses = self.table.query(
             KeyConditionExpression=Key('host').eq(host),
-            ProjectionExpression="#host, logline",
+            ProjectionExpression="#host, filename",
             ExpressionAttributeNames={"#host": "host"},
         )
 
