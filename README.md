@@ -27,10 +27,11 @@ There will be a REST api service for retrieving the data that was passed to it b
 ## REST API
 
 The REST api is described below:
-  /hosts/  Lists all hosts
-  /hosts/<host>/ Lists all files for a given host
-  /hosts/<host>/files/ Lists all log file names for a given host
-  /hosts/<host>/logs Lists all logs for a given host
+
+*  `/hosts/`  Lists all hosts
+*  `/hosts/<host>/` Lists all files for a given host
+*  `/hosts/<host>/files/` Lists all log file names for a given host
+*  `/hosts/<host>/logs` Lists all logs for a given host
 
 Where /hosts/<hosts>/logs takes the following query parameters
 ?filter=<filter> for filtering the log line
