@@ -12,8 +12,8 @@ from models.datastore import Datastore
 
 
 class App:
-    #LOG_DIR = '/var/log/'
-    LOG_DIR = 'test/var_log'
+    LOG_DIR = '/var/log'
+    #LOG_DIR = 'test/var_log'
     LAST_MODIFIED = 'last-modified'
 
     LOG_ACCESS_DELIMITER = u"\u200E"  #use LTR character as non-visible indicator that we're caught up
@@ -68,6 +68,8 @@ class App:
         files = [f for f in os.listdir(self.LOG_DIR)]
         metadata = self.get_metadata(metadata_filename)
         for f in files:
+            if not os.access( self.LOG_DIR + "/" + f, os.W_OK):
+                continue
             file_metadata = metadata.get(f)
             if not file_metadata:
                 file_metadata = {self.LAST_MODIFIED: None}
