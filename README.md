@@ -135,12 +135,12 @@ There are unit tests for both of these components, but ideally, there would be s
 # Running
 
 Before running, you may need to initialize the virtual environment:
-For Henrik:
-  virtualenv flask
-  source flask/bin/activate
-For Daniel
-   virtualenv env
-   source env/bin/activate
+* For Henrik:
+**  virtualenv flask
+**  source flask/bin/activate
+* For Daniel
+**   virtualenv env
+**   source env/bin/activate
 
 On each  host, start up Daniel's app.py (using python3 after installing the requirements.txt with pip3).
 
